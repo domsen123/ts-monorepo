@@ -9,10 +9,11 @@ Template project for setting up a TypeScript monorepo
 
 </div>
 
-----
+---
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of content**
 
 - [Features](#features)
@@ -43,12 +44,11 @@ Template project for setting up a TypeScript monorepo
 
 ## Setup
 
-This main branch of this repo uses [yarn workspaces](https://classic.yarnpkg.com/en/docs/workspaces/), while the [`npm` branch](https://github.com/NiGhTTraX/ts-monorepo/tree/npm) uses [npm 7 workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
+This main branch of this repo uses [pnpm workspaces](https://pnpm.io/pnpm-workspace_yaml), while the [`npm` branch](https://github.com/NiGhTTraX/ts-monorepo/tree/npm) uses [npm 7 workspaces](https://docs.npmjs.com/cli/v7/using-npm/workspaces).
 
 ```
-yarn install
+pnpm m i
 ```
-
 
 ## Docs
 
@@ -84,16 +84,16 @@ Use [babel-plugin-module-resolver](https://www.npmjs.com/package/babel-plugin-mo
 ```js
 module.exports = {
   presets: [
-    ["@babel/preset-env", { targets: { node: "current" } }],
-    "@babel/preset-typescript",
+    ['@babel/preset-env', { targets: { node: 'current' } }],
+    '@babel/preset-typescript',
   ],
 
   plugins: [
     [
-      "module-resolver",
+      'module-resolver',
       {
         alias: {
-          "^@nighttrax/(.+)": "../\\1/src",
+          '^@nighttrax/(.+)': '../\\1/src',
         },
       },
     ],
@@ -108,12 +108,12 @@ See the full example [here](examples/jest-babel).
 Use [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin) to resolve the path aliases:
 
 ```js
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = {
   resolve: {
-    plugins: [new TsconfigPathsPlugin()]
-  }
+    plugins: [new TsconfigPathsPlugin()],
+  },
 };
 ```
 
@@ -123,18 +123,18 @@ See the full example [here](examples/webpack).
 
 If you use `Babel` then see [this example](examples/jest-babel) from the [Babel](#babel) section above.
 
-If you use [ts-jest](https://github.com/kulshekhar/ts-jest) then you can use its `pathsToModuleNameMapper` helper: 
+If you use [ts-jest](https://github.com/kulshekhar/ts-jest) then you can use its `pathsToModuleNameMapper` helper:
 
 ```js
-const { pathsToModuleNameMapper } = require("ts-jest/utils");
-const { compilerOptions } = require("../../tsconfig.json");
+const { pathsToModuleNameMapper } = require('ts-jest/utils');
+const { compilerOptions } = require('../../tsconfig.json');
 
 module.exports = {
-  preset: "ts-jest",
+  preset: 'ts-jest',
 
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths, {
     // This has to match the baseUrl defined in tsconfig.json.
-    prefix: "<rootDir>/../../",
+    prefix: '<rootDir>/../../',
   }),
 };
 ```
@@ -146,7 +146,7 @@ See the full example [here](examples/jest-tsjest).
 Use [react-app-rewired](https://www.npmjs.com/package/react-app-rewired) to extend CRA's webpack config and apply the [tsconfig-paths-webpack-plugin](https://www.npmjs.com/package/tsconfig-paths-webpack-plugin):
 
 ```js
-const TsconfigPathsPlugin = require("tsconfig-paths-webpack-plugin");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
 module.exports = (config) => {
   // Remove the ModuleScopePlugin which throws when we
@@ -158,9 +158,9 @@ module.exports = (config) => {
 
   // Let Babel compile outside of src/.
   const oneOfRule = config.module.rules.find((rule) => rule.oneOf);
-    const tsRule = oneOfRule.oneOf.find((rule) =>
-      rule.test.toString().includes("ts|tsx")
-    );
+  const tsRule = oneOfRule.oneOf.find((rule) =>
+    rule.test.toString().includes('ts|tsx')
+  );
   tsRule.include = undefined;
   tsRule.exclude = /node_modules/;
 
@@ -169,7 +169,6 @@ module.exports = (config) => {
 ```
 
 See the full example [here](examples/cra).
-
 
 ### NextJS
 
@@ -180,7 +179,7 @@ module.exports = {
   webpack: (config) => {
     // Let Babel compile outside of src/.
     const tsRule = config.module.rules.find(
-      (rule) => rule.test && rule.test.toString().includes("tsx|ts")
+      (rule) => rule.test && rule.test.toString().includes('tsx|ts')
     );
     tsRule.include = undefined;
     tsRule.exclude = /node_modules/;
